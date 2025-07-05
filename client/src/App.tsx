@@ -1,20 +1,16 @@
-import { useState } from 'react'
-import './App.css'
-import AdminView from './components/Admin/AdminView'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import AdminView from './components/Admin/AdminView';
 
-// import ResumeView from './components/ResumeView'
-
-
-function App() {
-
+const App = () => {
   return (
-    <>   
-      <div className='pl-10 pr-10'>
-        <AdminView /> 
-        {/* <ResumeView /> */}
-      </div>   
-    </>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/*" element={<AdminView />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
