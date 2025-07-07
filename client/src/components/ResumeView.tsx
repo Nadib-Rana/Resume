@@ -1,3 +1,5 @@
+// src/components/ResumeView.tsx
+
 import React from 'react'
 
 import Header from './Header'
