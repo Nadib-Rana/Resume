@@ -26,7 +26,6 @@ const Summary = () => {
           required
           autoFocus
           autoComplete="off"
-          pattern=".{10,}"
           title="Please enter at least 10 characters for the summary."
           value={summary.summary}
           onChange={handleChange}
