@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+// src/components/Admin/Header.tsx
+
+import React, { useEffect, useState } from 'react';
 import { FaEnvelope, FaPhone, FaGithub, FaLinkedin } from 'react-icons/fa';
+
 
 const Header = () => {
   const [formData, setFormData] = useState({
@@ -24,67 +27,68 @@ const Header = () => {
     }
   };
 
+  useEffect(() => {
+    const savedData = localStorage.getItem("userProfile");
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  const handleSave = () => {
+    localStorage.setItem("userProfile", JSON.stringify(formData));
+    alert("✅ Profile info saved!");
+  };
+
   return (
     <>
       {/* Input Form */}
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
-  <h2 className="text-2xl font-semibold text-gray-800 mb-4"> Enter Profile Information</h2>
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-      <input name="fullName" placeholder="Nadib Rana" onChange={handleChange}
-        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
+        <h2 className="text-center text-xl font-semibold text-blue-900 mb-4">Enter Profile Information</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { label: "Full Name", name: "fullName", placeholder: "Nadib Rana" },
+            { label: "Degree", name: "degree", placeholder: "B.Sc in CSE" },
+            { label: "University", name: "university", placeholder: "Green University" },
+            { label: "Phone", name: "phone", placeholder: "+880..." },
+            { label: "Email", name: "email", placeholder: "you@email.com" },
+            { label: "GitHub URL", name: "github", placeholder: "https://github.com/username" },
+            { label: "LinkedIn URL", name: "linkedin", placeholder: "https://linkedin.com/in/username" }
+          ].map(({ label, name, placeholder }) => (
+            <div key={name}>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+              <input
+                name={name}
+                placeholder={placeholder}
+                value={formData[name]}
+                onChange={handleChange}
+                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+          ))}
 
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">Degree</label>
-      <input name="degree" placeholder="B.Sc in CSE" onChange={handleChange}
-        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Upload Profile Image</label>
+            <input
+              type="file"
+              name="img"
+              accept="image/*"
+              onChange={handleChange}
+              className="w-full border border-gray-300 px-3 py-2 rounded-lg cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+        </div>
 
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">University</label>
-      <input name="university" placeholder="Green University" onChange={handleChange}
-        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded transition duration-200 mb-8"
+          onClick={handleSave}
+        >
+          Save
+        </button>
+      </div>
 
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-      <input name="phone" placeholder="+880..." onChange={handleChange}
-        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
-
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-      <input name="email" placeholder="you@email.com" onChange={handleChange}
-        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
-
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">GitHub URL</label>
-      <input name="github" placeholder="https://github.com/username" onChange={handleChange}
-        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
-
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn URL</label>
-      <input name="linkedin" placeholder="https://linkedin.com/in/username" onChange={handleChange}
-        className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
-
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">Upload Profile Image</label>
-      <input type="file" name="img" accept="image/*" onChange={handleChange}
-        className="w-full border border-gray-300 px-3 py-2 rounded-lg cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    </div>
-
-  </div>
-  <button className='bg-green-600 border border-2 border-gray-300 w-full mt-2' >Save</button>
-</div>
-      {/*  Displaynn in the header */}
-      <div className="flex flex-col md:flex-row justify-between items-center p-6 bg-white border rounded shadow mb-50">
-        {/* Image Section */}
+      {/* Display Section */}
+      <div className="flex flex-col md:flex-row justify-between items-center p-6 bg-white border rounded shadow mt-8">
+        {/* Image */}
         <div className="mb-4 md:mb-0">
           <img
             src={formData.img}
@@ -93,15 +97,15 @@ const Header = () => {
           />
         </div>
 
-        {/* Info Section */}
+        {/* Info */}
         <div className="text-center md:text-left mb-4 md:mb-0">
-          <h1 className="text-3xl font-bold text-center text-gray-800">{formData.fullName || 'Your Name'}</h1>
+          <h1 className="text-3xl text-center font-bold text-gray-800">{formData.fullName || 'Your Name'}</h1>
           <p className="text-lg text-center text-gray-600">{formData.degree}</p>
           <p className="text-lg text-center text-gray-600">{formData.university}</p>
         </div>
 
-        {/* Contact Section */}
-        <div className="text-right text-sm space-y-1 text-gray-700 ">
+        {/* Contact */}
+        <div className="text-right text-sm space-y-1 text-gray-700">
           <p className="flex items-center justify-end gap-2"><FaPhone /> {formData.phone}</p>
           <p className="flex items-center justify-end gap-2"><FaEnvelope /> {formData.email}</p>
           <p className="flex items-center justify-end gap-2">
@@ -118,7 +122,6 @@ const Header = () => {
           </p>
         </div>
       </div>
-      
     </>
   );
 };

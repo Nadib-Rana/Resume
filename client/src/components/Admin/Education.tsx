@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Education = () => {
   const [education, setEducation] = useState({
@@ -22,6 +22,18 @@ const Education = () => {
       [name]: value,
     })
   }
+
+   useEffect(() => {
+      const savedData = localStorage.getItem("education");
+      if (savedData) {
+        setEducation(JSON.parse(savedData));
+      }
+    }, []);
+  
+    const handleSave = () => {
+      localStorage.setItem("education", JSON.stringify(education));
+      alert(" Profile info saved!");
+    };
 
   return (
     <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -126,7 +138,16 @@ const Education = () => {
             className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
+        
       </div>
+      <div>
+          <button
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded transition duration-200 mb-8"
+          onClick={handleSave}
+        >
+          Save
+        </button>
+        </div>
 
       {/* Display */}
       <h2 className="text-left text-xl font-semibold text-blue-900 mb-2 mt-8">EDUCATION</h2>

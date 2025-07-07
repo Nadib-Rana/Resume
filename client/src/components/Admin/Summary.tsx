@@ -27,7 +27,7 @@ const UserSummary = () => {
     const timestamp = new Date().toISOString();
     localStorage.setItem("summaryDate", timestamp);
     setSavedDate(timestamp);
-    alert("✅ Summary saved successfully!");
+    alert("Summary saved successfully!");
   };
 
   return (

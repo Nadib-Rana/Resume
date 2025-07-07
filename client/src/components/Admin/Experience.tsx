@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 
 const Experience = () => {
   const [experienceList, setExperienceList] = useState([
@@ -32,9 +32,23 @@ const Experience = () => {
     ]);
   };
 
+
+    useEffect(() => {
+      const savedData = localStorage.getItem("experienceList");
+      if (savedData) {
+        setExperienceList(JSON.parse(savedData));
+      }
+    }, []);
+  
+    const handleSave = () => {
+      localStorage.setItem("experienceList", JSON.stringify(experienceList));
+      alert(" Profile info saved!");
+    };
+  
+
   return (
     <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-left text-xl font-semibold text-blue-900 mb-4">EXPERIENCE</h2>
+      <h2 className="text-center text-xl font-semibold text-blue-900 mb-4">Fill Up Your Experience</h2>
 
       {/* Input Section */}
       {experienceList.map((exp, index) => (
@@ -78,6 +92,9 @@ const Experience = () => {
         </div>
       ))}
 
+    <div className="flex justify-between">
+
+    
       <button
         onClick={handleAddExperience}
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mb-8"
@@ -85,8 +102,20 @@ const Experience = () => {
         + Add Experience
       </button>
 
+       <button
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mb-8"
+          onClick={handleSave}
+        >
+          Save
+        </button>
+
+      </div>
+
       {/* Display Section */}
+
+      <h2 className="text-left text-xl font-semibold text-blue-900 mb-4">EXPERIENCE</h2>
       <div className="border-t-2 pt-6 space-y-6">
+        
         {experienceList.map((exp, index) => (
           <div key={index} className="flex justify-between">
             <div className="text-left">

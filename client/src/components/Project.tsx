@@ -1,41 +1,71 @@
-import React from 'react';
+import React, { useState , useEffect} from 'react';
 
 const Project = () => {
-  return (
-    <div>
-      <h2 className="text-left text-xl font-semibold text-blue-900 mb-2">PROJECT</h2>
-      <div className="border-t-2 pt-4 space-y-6">
-        {/* Project 1 */}
-        <div className="flex justify-between">
-          <div className="text-left">
-            <p className="font-semibold text-blue-900">• Green University StudentBridge</p>
-            <p className="text-sm text-gray-600 italic">University community platform with multiple services</p>
-            <ul className="list-none pl-5 text-sm text-gray-700 mt-2 space-y-1">
-              <li>- Developed key features including a <span className="font-semibold">food corner, housing listings, and a blood donation system</span>, enhancing campus life.</li>
-              <li>- Implemented <span className="font-semibold">real-time chatting and marketplace functionalities</span> to foster student interaction and resource sharing.</li>
-            </ul>
-          </div>
-          <div className="text-right text-sm text-gray-600">
-            <p>Ongoing</p>
-            <p>Tech: Figma, React.js, Node.js, MongoDB</p>
-          </div>
-        </div>
+  const [projects, setProjects] = useState([
+    {
+      title: '',
+      subtitle: '',
+      points: ['', ''],
+      timeline: '',
+      technologies: '',
+    },
+  ]);
 
-        {/* Project 2 */}
-        <div className="flex justify-between">
-          <div className="text-left">
-            <p className="font-semibold text-blue-900">• A-Tech-iT-Solution Website</p>
-            <p className="text-sm text-gray-600 italic">Professional website for a technology solutions company</p>
-            <ul className="list-none pl-5 text-sm text-gray-700 mt-2 space-y-1">
-              <li>- Successfully developed and deployed a comprehensive business website, improving the company’s online presence.</li>
-              <li>- Integrated essential features like <span className="font-semibold">contact forms and service showcase sections</span> to facilitate client engagement.</li>
-            </ul>
+  const handleChange = (index, field, value) => {
+    const updatedProjects = [...projects];
+    if (field === 'point1') updatedProjects[index].points[0] = value;
+    else if (field === 'point2') updatedProjects[index].points[1] = value;
+    else updatedProjects[index][field] = value;
+    setProjects(updatedProjects);
+  };
+
+  const handleAddProject = () => {
+    setProjects([
+      ...projects,
+      {
+        title: '',
+        subtitle: '',
+        points: ['', ''],
+        timeline: '',
+        technologies: '',
+      },
+    ]);
+  };
+ useEffect(() => {
+      const savedData = localStorage.getItem("projects");
+      if (savedData) {
+        setProjects(JSON.parse(savedData));
+      }
+    }, []);
+  
+    const handleSave = () => {
+      localStorage.setItem("projects", JSON.stringify(projects));
+      alert(" Profile info saved!");
+    };
+  return (
+    <div className="">
+      <h2 className="text-left text-xl font-semibold text-blue-900 mb-2">PROJECT</h2>
+
+    
+
+      {/* Display */}
+      <div className="border-t-2 pt-6 space-y-6">
+        {projects.map((project, index) => (
+          <div key={index} className="flex justify-between">
+            <div className="text-left">
+              <p className="font-semibold text-blue-900">• {project.title}</p>
+              <p className="text-sm text-gray-600 italic">{project.subtitle}</p>
+              <ul className="list-none pl-5 text-sm text-gray-700 mt-2 space-y-1">
+                <li>- {project.points[0]}</li>
+                <li>- {project.points[1]}</li>
+              </ul>
+            </div>
+            <div className="text-right text-sm text-gray-600">
+              <p>{project.timeline}</p>
+              <p>Tech: {project.technologies}</p>
+            </div>
           </div>
-          <div className="text-right text-sm text-gray-600">
-            <p>2023</p>
-            <p>Tech: WordPress, Elementor</p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

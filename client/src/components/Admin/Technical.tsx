@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Technical = () => {
   const [technicalSkills, setTechnicalSkills] = useState([
@@ -25,6 +25,18 @@ const Technical = () => {
     }
   };
 
+ useEffect(() => {
+  const saveData = localStorage.getItem("technicalSkills");
+  if (saveData) {
+    setTechnicalSkills(JSON.parse(saveData)); // ✅ parse instead of stringify
+  }
+}, []);
+
+const handleSave = () => {
+  localStorage.setItem("technicalSkills", JSON.stringify(technicalSkills)); // ✅ store data correctly
+  alert("Technical skills are added!");
+};
+
   return (
     <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">Fill Up Your Technical Skills</h1>
@@ -44,12 +56,21 @@ const Technical = () => {
           className="border border-gray-300 px-3 py-2 rounded-lg"
         />
       </div>
+      <div className="flex justify-between">
       <button
         onClick={handleAddSkill}
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mb-4"
       >
         + Add Technical Skill
       </button>
+       <button
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mb-4"
+          onClick={handleSave}
+        >
+          Save
+        </button>
+
+        </div>
 
       {/* Editable List */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 border-t pt-4">
@@ -69,6 +90,8 @@ const Technical = () => {
             />
           </div>
         ))}
+
+
       </div>
 
       {/* Display Section */}

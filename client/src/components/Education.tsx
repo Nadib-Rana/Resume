@@ -1,33 +1,68 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Education = () => {
-    return (
-        <div>
-             <h2 className="text-left text-xl font-semibold text-blue-900 mb-2">EDUCATION</h2>
-            <div className="border-t-2 ">
-                <div className="flex justify-between">
-                    <div className='text-left font-semibold text-blue-900'>
-                        <li>
-                           Green University of Bangladesh <br />
-                            <span className="text-sm pl-6 text-gray-600">Bachelor of Science in Computer Science & Engineering (Expected 2025)</span>
-                        </li>
-                        <li>
-                            Guzadia A.H. Secondary School <br />
-                            <span className="text-sm pl-6 text-gray-600">Secondary School Certificate (Science)</span>
-                        </li>
-                    </div>
-                    <div className="text-right text-gray-600">
-                        <span className="text-sm ">Dhaka Bangladesh</span> <br />
-                        <span className="">3.10</span> <br />
-                        <span className="text-sm ">Kishoreganj, Bangladesh</span> <br />
-                        <span className="">4.18</span>
-                    </div>
+  const [education, setEducation] = useState({
+    university: '',
+    universityDegree: '',
+    expectedGraduation: '',
+    universityLocation: '',
+    universityCgpa: '',
 
-                </div>
-            </div>
+    school: '',
+    schoolDegree: '',
+    schoolGraduation: '',
+    schoolLocation: '',
+    schoolGpa: '',
+  })
 
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setEducation({
+      ...education,
+      [name]: value,
+    })
+  }
+
+   useEffect(() => {
+      const savedData = localStorage.getItem("education");
+      if (savedData) {
+        setEducation(JSON.parse(savedData));
+      }
+    }, []);
+  
+    const handleSave = () => {
+      localStorage.setItem("education", JSON.stringify(education));
+      alert(" Education info saved!");
+    };
+
+  return (
+    <div>
+      {/* Display */}
+      <h2 className="text-left text-xl font-semibold text-blue-900 mb-2 mt-8">EDUCATION</h2>
+      <div className="border-t-2">
+        <div className="flex justify-between">
+          <div className="text-left ml-3 font-semibold text-blue-900">
+            <li>
+              {education.university} <br />
+              <span className="text-sm pl-6 text-gray-600">{education.universityDegree}</span>
+              <span className="text-sm pl-6 text-gray-600">{education.expectedGraduation}</span>
+            </li>
+            <li>
+              {education.school} <br />
+              <span className="text-sm pl-6 text-gray-600">{education.schoolDegree}</span>
+              <span className="text-sm pl-6 text-gray-600">{education.schoolGraduation}</span>
+            </li>
+          </div>
+          <div className="text-right text-gray-600">
+            <span className="text-sm">{education.universityLocation}</span> <br />
+            <span>{education.universityCgpa}</span> <br />
+            <span className="text-sm">{education.schoolLocation}</span> <br />
+            <span>{education.schoolGpa}</span>
+          </div>
         </div>
-    )
+      </div>
+    </div>
+  )
 }
 
 export default Education

@@ -1,53 +1,85 @@
-import React from 'react'
-import { FaEnvelope } from 'react-icons/fa';
+// src/components/Admin/Header.tsx
+
+import React, { useEffect, useState } from 'react';
+import { FaEnvelope, FaPhone, FaGithub, FaLinkedin } from 'react-icons/fa';
 
 
-//import for phone
-import { FaPhone } from 'react-icons/fa';
-//import for github
-import { FaGithub } from 'react-icons/fa';
-//import for linkedin
-import { FaLinkedin } from 'react-icons/fa';
+const Header = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    degree: '',
+    university: '',
+    phone: '',
+    email: '',
+    github: '',
+    linkedin: '',
+    img: ''
+  });
 
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
 
-const header = () => {
+    if (name === 'img' && files && files[0]) {
+      const imageURL = URL.createObjectURL(files[0]);
+      setFormData(prev => ({ ...prev, img: imageURL }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
+
+  useEffect(() => {
+    const savedData = localStorage.getItem("userProfile");
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  const handleSave = () => {
+    localStorage.setItem("userProfile", JSON.stringify(formData));
+    alert(" Profile info saved!");
+  };
+
   return (
-    <div className="flex justify-between items-center p-0 m-0 bg-white">
-  <div>
-    <img  src="https://showupmart.com/wp-content/uploads/2025/07/85154.jpg" 
-    alt="Brand Logo" 
-    className="
-    h-30 
-    w-30
-    pb-1.5
-    " 
-    />
-  </div>
-  <div className="text-center">
-    <h1 className='text-6xl'><b>Nadib Rana</b></h1>
-    <p className='text-xl'>B.Sc in Computer Science & Engineering</p>
-    <p className='text-xl'>Green University Of Bangladesh</p>
-  </div>
-  <div className="text-right text-xl">
-  <p className="flex justify-end items-center gap-2 text-xl">
-    <FaPhone className="text-xl " />
-    <span>+8801567823568</span>
-  </p>
-  <p className="flex justify-end text-xl items-center gap-2">
-    <FaEnvelope className="text-xl mr-1 mt-1" />
-    <span className='text-xl'>nadibrana9@mainl.com</span>
-  </p>
-  <p className="flex justify-end text-xl">
-    <FaGithub className="text-xl mr-2 mt-1" />
-     <a href="https://github.com/Nadib-Rana">GitHub</a> 
-    </p>
-  <p className="flex justify-end text-xl">
-    <FaLinkedin className="text-xl mr-2 mt-1" />
-   <a href="https://www.linkedin.com/in/nadib-rana-72923430a/">LinkedIn</a> 
-    </p>
-</div>
-</div>
-  )
-}
+    <>
+     
+      {/* Display Section */}
+      <div className="flex flex-col md:flex-row justify-between items-center p-6 bg-white  shadow ">
+        {/* Image */}
+        <div className="mb-4 md:mb-0">
+          <img
+            src={formData.img}
+            alt="Profile"
+            className="h-24 w-24 rounded object-cover border"
+          />
+        </div>
 
-export default header
+        {/* Info */}
+        <div className="text-center md:text-left mb-4 md:mb-0">
+          <h1 className="text-3xl text-center font-bold text-gray-800 ">{formData.fullName || 'Your Name'}</h1>
+          <p className="text-lg text-center text-gray-600">{formData.degree}</p>
+          <p className="text-lg text-center text-gray-600">{formData.university}</p>
+        </div>
+
+        {/* Contact */}
+        <div className="text-right text-sm space-y-1 text-gray-700">
+          <p className="flex items-center justify-end gap-2"><FaPhone /> {formData.phone}</p>
+          <p className="flex items-center justify-end gap-2"><FaEnvelope /> {formData.email}</p>
+          <p className="flex items-center justify-end gap-2">
+            <FaGithub />
+            <a href={formData.github} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">
+              GitHub
+            </a>
+          </p>
+          <p className="flex items-center justify-end gap-2">
+            <FaLinkedin />
+            <a href={formData.linkedin} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">
+              LinkedIn
+            </a>
+          </p>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Header;

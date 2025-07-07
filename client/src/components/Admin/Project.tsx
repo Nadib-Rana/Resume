@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 
 const Project = () => {
   const [projects, setProjects] = useState([
@@ -31,7 +31,17 @@ const Project = () => {
       },
     ]);
   };
-
+ useEffect(() => {
+      const savedData = localStorage.getItem("projects");
+      if (savedData) {
+        setProjects(JSON.parse(savedData));
+      }
+    }, []);
+  
+    const handleSave = () => {
+      localStorage.setItem("projects", JSON.stringify(projects));
+      alert(" Profile info saved!");
+    };
   return (
     <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-left text-xl font-semibold text-blue-900 mb-2">PROJECT</h2>
@@ -76,13 +86,21 @@ const Project = () => {
           />
         </div>
       ))}
-
+      <div className="flex justify-between">
       <button
         onClick={handleAddProject}
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded transition duration-200 mb-8"
       >
         + Add Project
       </button>
+      <button
+        onClick={handleSave}
+        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded transition duration-200 mb-8"
+      >
+        save
+      </button>
+
+      </div>
 
       {/* Display */}
       <div className="border-t-2 pt-6 space-y-6">
