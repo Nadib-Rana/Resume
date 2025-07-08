@@ -8,7 +8,6 @@ import Project from './Project';
 import Experience from './Experience';
 import Interests from './Interests';
 import ResumeView from '../ResumeView';
-import Home from '../HomePage'
 import HomePage from '../HomePage';
 
 const AdminView = () => {
@@ -18,7 +17,7 @@ const AdminView = () => {
       <aside className="w-64 bg-blue-100 p-4 space-y-4">
         <h2 className="text-xl font-bold text-blue-800 mb-4">Dashboard</h2>
         <nav className="space-y-2 text-blue-700">
-         <Link to="/" className="block hover:underline">Home</Link>
+          <Link to="/" className="block hover:underline">Home</Link>
           <Link to="/header" className="block hover:underline">Header</Link>
           <Link to="/summary" className="block hover:underline">Summary</Link>
           <Link to="/education" className="block hover:underline">Education</Link>
@@ -33,7 +32,11 @@ const AdminView = () => {
       {/* Main Content */}
       <main className="flex-1 p-10">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={
+            <div className="p-[-50px] m-[-50px]">
+              <HomePage />
+            </div>
+          } />
           <Route path="/header" element={<Header />} />
           <Route path="/summary" element={<Summary />} />
           <Route path="/education" element={<Education />} />

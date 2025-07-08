@@ -5,6 +5,9 @@ import { OrbitControls, Stars, Text, Float, Sparkles, useCursor, Environment } f
 import { useRef, useState, useEffect } from "react";
 import { Mesh, Vector3, Color } from "three";
 import { EffectComposer, Bloom, Glitch } from "@react-three/postprocessing";
+import { FaRocket,FaFileAlt,FaPenFancy } from 'react-icons/fa';
+
+
 
 // 🌟 3D Resume Model (Interactive & Glowing)
 const InteractiveResume = () => {
@@ -14,6 +17,7 @@ const InteractiveResume = () => {
   const { viewport } = useThree();
   
   useCursor(hovered, 'pointer', 'auto');
+  
   
   useFrame((state) => {
     if (meshRef.current) {
@@ -30,7 +34,7 @@ const InteractiveResume = () => {
   });
 
   return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
+    <Float speed={2} rotationIntensity={5} floatIntensity={1}>
       <mesh
         ref={meshRef}
         onPointerOver={() => setHover(true)}
@@ -56,11 +60,13 @@ const InteractiveResume = () => {
         >
           {clicked ? "✨ EDIT ME! ✨" : "MY RESUME"}
         </Text>
+       
         {hovered && (
           <Sparkles count={30} scale={[2.2, 2.9, 0.2]} size={4} speed={0.2} color="#FF6B6B" />
         )}
       </mesh>
     </Float>
+    
   );
 };
 
@@ -260,14 +266,14 @@ const HomePage = () => {
               </span>{" "}
               with a <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-                3D Resume
+                Resume
               </span>
             </motion.h1>
             <motion.p
               variants={itemVariants}
               className="text-xl text-blue-100 mb-8 drop-shadow-md max-w-lg"
             >
-              Create an interactive, animated resume that recruiters will remember.
+              Create an interactive resume that recruiters will remember.
             </motion.p>
 
             <motion.div
@@ -279,9 +285,16 @@ const HomePage = () => {
                 whileHover="hover"
                 whileTap="tap"
                 className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white px-8 py-4 rounded-xl font-bold shadow-xl text-lg backdrop-blur-sm"
-                onClick={() => navigate("/create")}
+                onClick={() => navigate("/header")}
               >
-                🚀 Start Building Free
+                <div className="flex "> 
+
+                
+                <FaRocket className="text-white-500 text-3xl" />
+
+                   Start Building Free
+
+                   </div>
               </motion.button>
               <motion.button
                 variants={buttonVariants}
@@ -290,7 +303,10 @@ const HomePage = () => {
                 className="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-8 py-4 rounded-xl font-bold shadow-xl text-lg backdrop-blur-sm"
                 onClick={() => setIsExploring(!isExploring)}
               >
-                {isExploring ? "🔴 Stop Exploring" : "✨ Explore Templates"}
+                <div className="flex"><FaFileAlt  size={24} color="#4A90E2" ></FaFileAlt>
+                 {isExploring ? "Stop Exploring" : " You Resume"}
+                </div>
+               
               </motion.button>
             </motion.div>
           </motion.div>
@@ -411,9 +427,12 @@ const HomePage = () => {
             whileHover="hover"
             whileTap="tap"
             className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white px-10 py-5 rounded-xl font-bold shadow-xl text-xl"
-            onClick={() => navigate("/create")}
+            onClick={() => navigate("/header")}
           >
-            🚀 Create Yours Now — 100% Free
+            <div className="flex">
+            <FaRocket className=" text-white-500 text-3xl" />
+              Create Yours Now — 100% Free
+            </div>
           </motion.button>
         </motion.div>
       </motion.div>
