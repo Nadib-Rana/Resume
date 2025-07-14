@@ -1,5 +1,8 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+  "builds": [
+    {
+      "src": "src/main.tsx",
+      "use": "@vercel/static"
+    }
   ]
 }
